@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Montserrat;
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+* {
+  font-family: Montserrat;
+  transition: 200ms;
+}
+
+.right-to-left {
+  animation: rightToLeft 1s;
+}
+
+@keyframes rightToLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.left-to-right {
+  animation: leftToRight 1s;
+}
+
+@keyframes leftToRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.top-to-bottom {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.98);
+    animation: topToBottom 1s forwards;
+}
+
+@keyframes topToBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.bottom-to-top {
+    opacity: 0;
+    transform: translateY(100%) scale(0.98);
+    animation: bottomToTop 1s forwards;
+}
+
+@keyframes bottomToTop {
+  0% {
+    opacity: 0;
+    transform: translateY(100%) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
