@@ -730,6 +730,5 @@ E:\Test Project\SimpleLogin\obj\Debug\net9.0\compressed\y6vpdlo0b2-5mh5vdc7se.gz
 E:\Test Project\SimpleLogin\obj\Debug\net9.0\compressed\aufl829ch1-l24svmjlax.gz
 E:\Test Project\SimpleLogin\bin\Debug\net9.0\tailwind.extension.json
 E:\Test Project\SimpleLogin\obj\Debug\net9.0\SimpleLogin.sourcelink.json
-E:\Test Project\SimpleLogin\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 E:\Test Project\SimpleLogin\obj\Debug\net9.0\compressed\gm97cvmd41-ewkcbu9z7z.gz
 E:\Test Project\SimpleLogin\obj\Debug\net9.0\compressed\3qupofo7sq-ewkcbu9z7z.gz
