@@ -15,16 +15,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SimpleLogin.Models;
+using SimpleLogin.Services;
 
 namespace SimpleLogin.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly GoogleCaptchaService _captchaService;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel
+            (
+            GoogleCaptchaService service,
+            SignInManager<User> signInManager, ILogger<LoginModel> logger
+            )
         {
+            _captchaService = service;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -39,6 +46,9 @@ namespace SimpleLogin.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            public string Token { get; set; }
+
             [Required]
             public string Username { get; set; }
 
@@ -67,6 +77,12 @@ namespace SimpleLogin.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var captchaResult = await _captchaService.VerifyToken(Input.Token);
+            if (!captchaResult)
+            {
+                return Page();
+            }
 
             if (ModelState.IsValid)
             {

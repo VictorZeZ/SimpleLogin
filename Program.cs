@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SimpleLogin.Data;
 using SimpleLogin.Models;
 using Microsoft.AspNetCore.Identity;
+using SimpleLogin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.Configure<GoogleCaptchaConfig>(builder.Configuration.GetSection("GoogleReCaptcha"));
+
+builder.Services.AddTransient(typeof(GoogleCaptchaService));
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.ConfigureApplicationCookie(options =>

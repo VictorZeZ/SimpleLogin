@@ -19,12 +19,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SimpleLogin.Models;
+using SimpleLogin.Services;
 
 namespace SimpleLogin.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
+        private readonly GoogleCaptchaService _captchaService;
         private readonly UserManager<User> _userManager;
         private readonly IUserStore<User> _userStore;
         private readonly IUserEmailStore<User> _emailStore;
@@ -32,12 +34,14 @@ namespace SimpleLogin.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
+            GoogleCaptchaService service,
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _captchaService = service;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -55,6 +59,9 @@ namespace SimpleLogin.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            public string Token { get; set; }
+
             [Required]
             public string Username { get; set; }
 
@@ -88,6 +95,13 @@ namespace SimpleLogin.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var captchaResult = await _captchaService.VerifyToken(Input.Token);
+            if (!captchaResult)
+            {
+                return Page();
+            }
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
